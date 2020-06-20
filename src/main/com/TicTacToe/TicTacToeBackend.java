@@ -1,20 +1,24 @@
-package TicTacToe;
+package com.TicTacToe;
 
 import java.util.Scanner;
 
-public class TicTacToeNew {
+public class TicTacToeBackend {
     static Scanner sc = new Scanner(System.in);
-    int box[][] = new int[3][3];
+    private int box[][] = new int[3][3];
+    private int currentPlayer = 1;
 
-    public void readInput(int playerNo) {
-        System.out.println("Please enter x and y values for Player " + playerNo);
+
+    public void readInput() {
+        System.out.println("Please enter x and y values for Player " + currentPlayer);
+        //TODO: map jbuttons to xy
         int x = sc.nextInt();
         int y = sc.nextInt();
-        fillTheBox(playerNo, x, y);
+        fillTheBox(x, y);
+
     }
 
-    private void fillTheBox(int playerNo, int x, int y) {
-        box[x][y] = playerNo; //fill box
+    public void fillTheBox(int x, int y) {
+        box[x][y] = currentPlayer; //fill box
     }
 
     public void print() {
@@ -42,18 +46,18 @@ public class TicTacToeNew {
         }
     }
 
-    public boolean isPlayerWinning(int playerNo) {
+    public boolean isPlayerWinning() {
         for (int col = 0; col < 3; col++) {
-            if (box[0][col] == playerNo && box[1][col] == playerNo && box[2][col] == playerNo)
+            if (box[0][col] == currentPlayer && box[1][col] == currentPlayer && box[2][col] == currentPlayer)
                 return true;
         }
         for (int row = 0; row < 3; row++) {
-            if (box[row][0] == playerNo && box[row][1] == playerNo && box[row][2] == playerNo)
+            if (box[row][0] == currentPlayer && box[row][1] == currentPlayer && box[row][2] == currentPlayer)
                 return true;
         }
-        if (box[0][0] == playerNo && box[1][1] == playerNo && box[2][2] == playerNo)
+        if (box[0][0] == currentPlayer && box[1][1] == currentPlayer && box[2][2] == currentPlayer)
             return true;
-        if (box[0][2] == playerNo && box[1][1] == playerNo && box[2][0] == playerNo)
+        if (box[0][2] == currentPlayer && box[1][1] == currentPlayer && box[2][0] == currentPlayer)
             return true;
         return false;
     }
@@ -68,9 +72,9 @@ public class TicTacToeNew {
         return true;
     }
 
-    public boolean isResultDeclared(int playerNo) {
-        if (isPlayerWinning(playerNo)) {
-            System.out.println("Player " + playerNo + " Wins");
+    public boolean isResultDeclared() {
+        if (isPlayerWinning()) {
+            System.out.println("Player " + currentPlayer + " Wins");
             return true;
         } else if (isDraw()) {
             System.out.println("Match drawn");
@@ -80,32 +84,33 @@ public class TicTacToeNew {
     }
 
     public static void main(String[] args) {
-        TicTacToeNew t = new TicTacToeNew();
-        int FIRST_PLAYER = 1;
-        int SECOND_PLAYER = 2;
-
+        TicTacToeBackend t = new TicTacToeBackend();
+        
         while(true) {
             System.out.println("Start Game");
             t.box = new int[3][3];
 
-            for (int i = 1; i <= 5; i++) {
-                t.readInput(FIRST_PLAYER);
+            for (int i = 1; i <= 9; i++) {
+                t.readInput();
                 t.print();
 
-                if (t.isResultDeclared(FIRST_PLAYER))
+                if (t.isResultDeclared())
                     break;
 
-
-                t.readInput(SECOND_PLAYER);
-                t.print();
-
-                if (t.isResultDeclared(SECOND_PLAYER))
-                    break;
+                t.toggleCurrentPlayer();
             }
             System.out.println("Press 1 to continue, Press 2 to exit!");
             if(sc.nextInt() != 1) {
                 break;
             }
         }
+    }
+
+    public void toggleCurrentPlayer() {
+        currentPlayer = (currentPlayer == 1 ? 2 : 1);
+    }
+
+    public int getCurrentPlayer() {
+        return currentPlayer;
     }
 }
