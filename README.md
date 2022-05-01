@@ -1,2 +1,2 @@
 # TicTacToe
-I have java for both frontend as well as backend for making the above project.
+I have used java codes for both frontend as well as backend for this project.
